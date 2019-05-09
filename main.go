@@ -43,12 +43,12 @@ func main() {
 
 	jwtMiddleware := jwtmiddleware.New(jwtmiddleware.Options{
 		ValidationKeyGetter: func(token *jwt.Token) (interface{}, error) {
-			aud := os.Getenv("AUTH0_AUDIENCE")
+			aud := os.Getenv("AUDIENCE")
 			checkAud := token.Claims.(jwt.MapClaims).VerifyAudience(aud, false)
 			if !checkAud {
 				return token, errors.New("Invalid audience.")
 			}
-			iss := "https://" + os.Getenv("AUTH0_DOMAIN") + "/"
+			iss := "https://" + os.Getenv("DOMAIN") + "/"
 			checkIss := token.Claims.(jwt.MapClaims).VerifyIssuer(iss, false)
 			if !checkIss {
 				return token, errors.New("Invalid issuer.")
@@ -131,7 +131,7 @@ func checkScope(scope string, tokenString string) bool {
 
 func getPemCert(token *jwt.Token) (string, error) {
 	cert := ""
-	resp, err := http.Get("https://" + os.Getenv("AUTH0_DOMAIN") + "/.well-known/jwks.json")
+	resp, err := http.Get("https://" + os.Getenv("DOMAIN") + "/.well-known/jwks.json")
 
 	if err != nil {
 		return cert, err

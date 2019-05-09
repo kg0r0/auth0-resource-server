@@ -1,4 +1,4 @@
-module github.com/kg0r0/auth0-resource-server
+module github.com/kg0r0/oauth2-resource-server
 
 go 1.12
 
